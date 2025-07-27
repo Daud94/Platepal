@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     DATABASE_URL: str = ""
     SALT: str
+    JWT_SECRET: str
+    JWT_ALGORITHM: str
+    JWT_EXPIRATION_MINUTES: int
 
     class Config:
         env_file = ".env"
