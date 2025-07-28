@@ -11,6 +11,6 @@ class CreateUser(BaseModel):
     user_type: UserType
 
 class LoginUser(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 

@@ -2,7 +2,7 @@ import sys
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
-from app.api.v1.endpoints import auth
+from app.api.v1.endpoints import auth, user
 from app.config import settings
 from app.database import create_db_and_tables
 from scalar_fastapi import get_scalar_api_reference
@@ -35,3 +35,4 @@ async def scalar_html():
 
 
 app.include_router(auth.router, prefix=settings.API_V1_STR, tags=["Auth"])
+app.include_router(user.router, prefix=settings.API_V1_STR, tags=["Users"])
