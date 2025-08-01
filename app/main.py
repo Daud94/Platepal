@@ -6,8 +6,18 @@ from app.api.v1.endpoints import auth, user
 from app.config import settings
 from app.database import create_db_and_tables
 from scalar_fastapi import get_scalar_api_reference
+from contextlib import asynccontextmanager
+from rich import print, panel
 
+
+@asynccontextmanager
+async def lifespan_handler(app: FastAPI):
+    print(panel.Panel("Starting up...", border_style="green"))
+    await create_db_and_tables()
+    yield
+    print(panel.Panel("Shutting down...", border_style="red"))
 app = FastAPI(
+    lifespan=lifespan_handler,
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
@@ -20,11 +30,6 @@ async def http_exception_handler(request, exc: HTTPException):
         status_code=exc.status_code,
         content={"detail": exc.detail, "success": False}
     )
-
-
-@app.on_event("startup")
-async def startup_event():
-    create_db_and_tables()
 
 @app.get("/scalar", include_in_schema=False)
 async def scalar_html():

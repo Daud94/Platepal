@@ -1,17 +1,24 @@
 from fastapi import Depends
-from sqlmodel import create_engine, SQLModel, Session
+from sqlmodel import SQLModel
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import sessionmaker
 from typing import Annotated
 
-sqlite_file_name = "platepal.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
-engine = create_engine(sqlite_url, connect_args={"check_same_thread": False})
+from app.config import settings
 
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)  # Create tables in the database
+# sqlite_file_name = "platepal.db"
+# sqlite_url = f"sqlite:///{sqlite_file_name}"
+# engine = create_engine(sqlite_url, connect_args={"check_same_thread": False})
+engine = create_async_engine(url=settings.DATABASE_URL, echo=True)
 
-def get_session():
-    with Session(engine) as session:
+async def create_db_and_tables():
+    async with engine.begin() as connection:
+        await connection.run_sync(SQLModel.metadata.create_all)
+
+async def get_session():
+    async_session = sessionmaker(bind=engine,class_=AsyncSession,expire_on_commit=False)
+    async with async_session() as session:
         yield session
 
 
-sessionDep = Annotated[Session, Depends(get_session)]
+sessionDep = Annotated[AsyncSession, Depends(get_session)]
