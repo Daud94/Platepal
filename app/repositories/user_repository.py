@@ -1,24 +1,36 @@
+from sqlmodel import select
+
 from app.database import sessionDep
 from app.models.user import User
 from app.schemas.user_schema import CreateUser
-from typing import Any
 
 
 class UserRepository:
     def __init__(self, session: sessionDep):
         self.session = session
 
-    def create_user(self, user: CreateUser) -> User:
-            try:
-                user = User(**user.model_dump(exclude_unset=True))
-                self.session.add(user)
-                self.session.commit()
-                return user
-            except Exception as e:
-                self.session.rollback()
-            finally:
-                self.session.close()
+    async def create_user(self, payload: CreateUser):
+        try:
+            user = User(
+                first_name=payload.first_name,
+                last_name=payload.last_name,
+                email=payload.email,
+                user_type=payload.user_type,
+                password=payload.password,
+            )
+            self.session.add(user)
+            await self.session.commit()
+            await self.session.refresh(user)
+            return user
+        except Exception as e:
+            await self.session.rollback()
+            raise e
 
-    def get_user(self, where: dict[str, Any]) -> User | None:
-        user = self.session.query(User).filter_by(**where).first()
-        return user
+    async def get_user(self, where: dict):
+        try:
+            user = await self.session.execute(
+                select(User).filter_by(**where)
+            )
+            return user.scalars().first()
+        except Exception as e:
+            raise e
