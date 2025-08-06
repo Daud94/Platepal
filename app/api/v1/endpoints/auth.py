@@ -1,4 +1,6 @@
+from typing import Annotated
 from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 from starlette.responses import JSONResponse
 
 from app.dependencies import get_auth_service
@@ -12,14 +14,15 @@ router = APIRouter(
 
 
 @router.post('/signup')
-def signup(payload: CreateUser, auth_service: AuthService = Depends(get_auth_service)):
-    auth_service.signup(payload)
+async def signup(payload: CreateUser, auth_service: AuthService = Depends(get_auth_service)):
+    await auth_service.signup(payload=payload)
     return JSONResponse(status_code=201, content={"success": True, "message": "Signup successful"})
 
 
 @router.post('/login', response_model=LoginUserResponse)
-def login(payload: LoginUser, auth_service: AuthService = Depends(get_auth_service)):
-    access_token = auth_service.login(payload)
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+                auth_service=Depends(get_auth_service)):
+    access_token = await auth_service.login(username=form_data.username, password=form_data.password)
     return LoginUserResponse(
         success=True,
         message="Login successful",

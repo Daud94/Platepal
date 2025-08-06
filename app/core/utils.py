@@ -1,11 +1,13 @@
 from datetime import datetime, timezone, timedelta
 
 import jwt
-from fastapi import Depends, HTTPException
+from fastapi import HTTPException
 from passlib.context import CryptContext
 from starlette import status
 from app.config import settings
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 # Hash password function
 def hash_password(password: str) -> str:
@@ -27,6 +29,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
     return encoded_jwt
 
+
 def verify_access_token(token: str):
     try:
         payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
@@ -35,4 +38,3 @@ def verify_access_token(token: str):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
     except jwt.PyJWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-
