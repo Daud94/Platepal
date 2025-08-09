@@ -2,10 +2,9 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.ext.asyncio.engine import create_async_engine
 from sqlmodel import SQLModel
-from typing import Annotated
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.config import settings
+from app.config.env_config import settings
 
 # sqlite_file_name = "platepal.db"
 # sqlite_url = f"sqlite:///{sqlite_file_name}"

@@ -1,17 +1,11 @@
 from datetime import timedelta
-from typing import Annotated
+from fastapi import HTTPException, status
 
-from fastapi import Depends, HTTPException, status, Header
-from fastapi.security import OAuth2PasswordBearer
-from pydantic.v1.parse import load_file
-from rich import panel
-
-from app.config import settings
-from app.core.security import oauth2_scheme
-from app.core.utils import hash_password, verify_password, create_access_token, verify_access_token
+from app.config.env_config import settings
+from app.core.utils import hash_password, verify_password, create_access_token
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
-from app.schemas.user_schema import CreateUser, LoginUser
+from app.schemas.auth_schema import CreateUser
 
 
 class AuthService:
@@ -27,9 +21,8 @@ class AuthService:
         payload.user_type = payload.user_type
         await self.user_repo.create_user(payload)
 
-    async def get_current_user(self, token:Annotated[str, Depends(oauth2_scheme)]) -> User:
-        payload = verify_access_token(token)
-        user = await self.user_repo.get_user(where={"id": payload["userId"]})
+    async def get_current_user(self, token_data: dict) -> User:
+        user = await self.user_repo.get_user(where={"id": token_data["userId"]})
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Account not found")
         return user

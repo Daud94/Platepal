@@ -1,10 +1,12 @@
 from datetime import datetime, timezone, timedelta
+from uuid import uuid4
 
 import jwt
 from fastapi import HTTPException
 from passlib.context import CryptContext
 from starlette import status
-from app.config import settings
+
+from app.config.env_config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -25,7 +27,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
         expire = datetime.now(timezone.utc) + expires_delta
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=int(settings.JWT_EXPIRATION_MINUTES))
-    to_encode.update({"exp": expire})
+    to_encode.update({"exp": expire, "jti": uuid4().hex})
     encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM)
     return encoded_jwt
 

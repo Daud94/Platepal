@@ -1,8 +1,8 @@
 from sqlmodel import select
 
-from app.database import sessionDep
+from app.config.database import sessionDep
 from app.models.user import User
-from app.schemas.user_schema import CreateUser
+from app.schemas.auth_schema import CreateUser
 
 
 class UserRepository:

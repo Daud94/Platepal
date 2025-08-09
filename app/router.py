@@ -1,6 +1,7 @@
 from app.api.v1.endpoints import auth, user
-from app.config import settings
 from fastapi import APIRouter
+
+from app.config.env_config import settings
 
 router = APIRouter()
 

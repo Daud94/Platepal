@@ -1,12 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
-from app.config import settings
-from app.database import create_db_and_tables
 from scalar_fastapi import get_scalar_api_reference
 from contextlib import asynccontextmanager
 from rich import print, panel
 
+from app.config.database import create_db_and_tables
+from app.config.env_config import settings
 from app.router import router
 
 
