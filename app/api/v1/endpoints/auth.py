@@ -5,6 +5,7 @@ from starlette.responses import JSONResponse
 
 from app.dependencies import get_auth_service
 from app.schemas.responses_schema import LoginUserResponse
+from app.schemas.token_schema import Token
 from app.schemas.user_schema import CreateUser, LoginUser
 from app.services.auth_service import AuthService
 
@@ -19,12 +20,8 @@ async def signup(payload: CreateUser, auth_service: AuthService = Depends(get_au
     return JSONResponse(status_code=201, content={"success": True, "message": "Signup successful"})
 
 
-@router.post('/login', response_model=LoginUserResponse)
+@router.post('/login', response_model=Token)
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
                 auth_service=Depends(get_auth_service)):
     access_token = await auth_service.login(username=form_data.username, password=form_data.password)
-    return LoginUserResponse(
-        success=True,
-        message="Login successful",
-        auth_token=access_token
-    )
+    return Token(access_token=access_token, token_type="bearer")

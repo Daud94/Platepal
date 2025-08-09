@@ -19,4 +19,4 @@ def get_auth_service(user_repo: UserRepository = Depends(get_user_repository)) -
 
 async def get_current_user(token:Annotated[str, Depends(oauth2_scheme)],
                      auth_service: AuthService = Depends(get_auth_service)) -> User:
-    return await auth_service.get_current_user(token=token)  # Assuming authorization is passed as a header dependency
+    return await auth_service.get_current_user(token=token)
