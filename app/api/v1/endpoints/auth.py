@@ -27,7 +27,7 @@ async def signup(payload: CreateUser, auth_service: AuthService = Depends(get_au
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
                 auth_service=Depends(get_auth_service)):
     access_token = await auth_service.login(username=form_data.username, password=form_data.password)
-    return Token(token=access_token, access_token="bearer")
+    return Token(access_token=access_token, token_type="bearer")
 
 
 @router.get('/logout', response_model=LogoutResponse)

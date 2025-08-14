@@ -20,11 +20,13 @@ def get_auth_service(user_repo: UserRepository = Depends(get_user_repository)) -
 
 
 async def get_access_token(token: Annotated[str, Depends(oauth2_scheme)]) -> str:
+    print(token)
     token_data = verify_access_token(token)
-    if await is_jti_blacklisted(token_data["jti"]):
+    is_blacklisted = await is_jti_blacklisted(token_data["jti"])
+    if is_blacklisted:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token",
+            detail="Token is blacklisted",
         )
 
     return token_data

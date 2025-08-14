@@ -1,0 +1,23 @@
+from enum import Enum
+
+class DishCategory(str, Enum):
+    AFRICAN_DISHES = 'African Dishes',
+    INTERNATIONAL_DISHES = 'International Dishes',
+    CONTINENTAL_DISHES = 'Continental Dishes',
+    ASIAN_CUISINE = 'Asian Cuisine',
+    MIDDLE_EASTERN_CUISINE = 'Middle Eastern Cuisine',
+    AMERICAN_CLASSICS = 'American Classics',
+    ITALIAN_CUISINE = 'Italian Cuisine',
+    MEXICAN_CUISINE = 'Mexican Cuisine',
+    NIGERIAN_DELICACIES = 'Nigerian Delicacies',
+    CHINESE_CUISINE = 'Chinese Cuisine',
+    INDIAN_CUISINE = 'Indian Cuisine',
+    LOCAL_STREET_FOOD = 'Local Street Food',
+    GRILLED_AND_BARBECUE = 'Grilled & Barbecue',
+    SEAFOOD_SPECIALTIES = 'Seafood Specialties',
+    VEGETARIAN_MEALS = 'Vegetarian Meals',
+    VEGAN_OPTIONS = 'Vegan Options',
+    HEALTHY_LIGHT_MEALS = 'Healthy/Light Meals',
+    BREAKFAST_MENU = 'Breakfast Menu',
+    FAST_FOOD_AND_SNACKS = 'Fast Food & Snacks',
+    CHEFS_SPECIALS = "Chef's Specials",

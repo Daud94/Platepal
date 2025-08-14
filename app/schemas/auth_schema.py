@@ -13,8 +13,8 @@ class CreateUser(BaseModel):
     user_type: UserType
 
 class Token(BaseModel):
-    token: str
     access_token: str
+    token_type: str
 
 class SignupResponse(BaseResponse):
     pass
