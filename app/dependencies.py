@@ -5,17 +5,25 @@ from app.config.redis import is_jti_blacklisted
 from app.core.utils import verify_access_token
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, BackgroundTasks
 from app.core.security import oauth2_scheme
 
 from app.services.auth_service import AuthService
+from app.services.email_service import EmailService
+from app.services.notification_service import NotificationService
 
 
 def get_user_repository(session=sessionDep) -> UserRepository:
     return UserRepository(session=session)
 
 
-def get_auth_service(user_repo: UserRepository = Depends(get_user_repository)) -> AuthService:
+def get_email_service(notification_service: NotificationService = Depends(NotificationService)) -> EmailService:
+    return EmailService(notification_service=notification_service)
+
+
+def get_auth_service(
+        user_repo: UserRepository = Depends(get_user_repository),
+) -> AuthService:
     return AuthService(user_repo=user_repo)
 
 

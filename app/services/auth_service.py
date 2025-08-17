@@ -9,17 +9,18 @@ from app.schemas.auth_schema import CreateUser
 
 
 class AuthService:
-    def __init__(self, user_repo: UserRepository):
+    def __init__(
+            self,
+            user_repo: UserRepository):
         self.user_repo = user_repo
 
     async def signup(self, payload: CreateUser):
         existing_user = await self.user_repo.get({"email": payload.email})
-        print(existing_user)
         if existing_user:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already registered")
         payload.password = hash_password(payload.password)
         payload.user_type = payload.user_type
-        await self.user_repo.create(payload)
+        return await self.user_repo.create(payload)
 
     async def get_current_user(self, token_data: dict) -> User:
         user = await self.user_repo.get(where={"id": token_data["userId"]})

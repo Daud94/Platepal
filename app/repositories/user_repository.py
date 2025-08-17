@@ -11,12 +11,13 @@ class UserRepository(BaseRepository):
     def __init__(self, session: sessionDep):
         super().__init__(session, User)
 
-    async def create(self, payload: CreateUser):
-        await self._create(payload.model_dump())
+    async def create(self, payload: CreateUser) -> User:
+        user = await self._create(payload.model_dump())
+        print(user)
+        return user
 
     async def get_by_id(self, id: UUID):
         return await self._get_by_id(id)
 
     async def get(self, where: dict):
-        print("where", where)
         return await self._get(where)

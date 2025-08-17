@@ -1,12 +1,13 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, BackgroundTasks
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.config.redis import add_jti_to_blacklist
-from app.dependencies import get_auth_service, get_access_token
+from app.dependencies import get_auth_service, get_access_token, get_email_service
 
 from app.schemas.auth_schema import SignupResponse, Token, CreateUser, LogoutResponse
 from app.services.auth_service import AuthService
+from app.services.email_service import EmailService
 
 router = APIRouter(
     prefix='/auth',
@@ -15,8 +16,14 @@ router = APIRouter(
 
 
 @router.post('/signup', response_model=SignupResponse)
-async def signup(payload: CreateUser, auth_service: AuthService = Depends(get_auth_service)):
-    await auth_service.signup(payload=payload)
+async def signup(
+        payload: CreateUser,
+        tasks: BackgroundTasks,
+        auth_service: AuthService = Depends(get_auth_service),
+        email_service: EmailService = Depends(get_email_service)
+):
+    user = await auth_service.signup(payload=payload)
+    tasks.add_task(email_service.send_welcome_email, user)
     return {
         "success": True,
         "message": "Signup successful"

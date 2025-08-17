@@ -1,5 +1,6 @@
 from uuid import UUID, uuid4
 
+from pydantic import EmailStr
 from sqlalchemy import Column
 from sqlmodel import SQLModel, Field, Relationship
 from app.enums.user_type import UserType
@@ -19,7 +20,7 @@ class User(SQLModel, table=True):
     )
     first_name: str
     last_name: str
-    email: str = Field(unique=True, index=True)
+    email: EmailStr = Field(unique=True, index=True)
     password: str
     user_type: UserType
 

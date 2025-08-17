@@ -13,7 +13,7 @@ router = APIRouter(
 auth_service = get_auth_service()
 
 @router.get('/profile')
-def get_user_profile(current_user: Annotated[User, Depends(get_current_user)],):
+def get_user_profile(current_user: Annotated[User, Depends(get_current_user)]):
     user = current_user
     return {
         "success": True,
