@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PlatePal!</title>
+</head>
+<!-- Base styles for body -->
+<body style="
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333333;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+">
+    <!-- Main container -->
+    <div style="
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    ">
+        <!-- Header section -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="
+                color: #FF6B6B;
+                margin: 0;
+                font-size: 28px;
+            ">Welcome to PlatePal! 🍽️</h1>
+        </div>
+
+        <!-- Welcome message -->
+        <p style="font-size: 16px;">Dear {{ user_name }},</p>
+        <p style="font-size: 16px;">Get ready for a delicious journey! We're thrilled to have you join the PlatePal family. Your taste buds are about to embark on an exciting culinary adventure with our diverse selection of local restaurants and cuisines.</p>
+
+        <!-- Features highlight box -->
+        <div style="
+            background-color: #FFF3E0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        ">
+            <p style="color: #FF6B6B; font-weight: bold; margin: 0;">🌟 What's cooking at PlatePal:</p>
+            <ul style="list-style-type: none; padding-left: 0; margin: 10px 0;">
+                <li style="margin: 8px 0;">🍳 Easy ordering from your favorite local restaurants</li>
+                <li style="margin: 8px 0;">🚚 Quick and reliable delivery</li>
+                <li style="margin: 8px 0;">💫 Exclusive deals and promotions</li>
+                <li style="margin: 8px 0;">⭐ Loyalty rewards program</li>
+            </ul>
+        </div>
+
+        <!-- CTA button -->
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ website_url }}" style="
+                background-color: #FF6B6B;
+                color: white;
+                padding: 12px 25px;
+                text-decoration: none;
+                border-radius: 25px;
+                font-weight: bold;
+                display: inline-block;
+            ">Start Ordering Now</a>
+        </div>
+
+        <!-- Support section -->
+        <p style="font-size: 16px;">Need assistance? Our support team is here to help!</p>
+        <div style="margin: 20px 0;">
+            <a href="{{ support_url }}" style="
+                color: #FF6B6B;
+                text-decoration: none;
+                margin-right: 20px;
+            ">Contact Support</a>
+            <a href="{{ unsubscribe_url }}" style="color: #666666; text-decoration: none;">Unsubscribe</a>
+        </div>
+
+        <!-- Divider -->
+        <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+
+        <!-- Footer section -->
+        <div style="font-size: 12px; color: #666666;">
+            <p>This email was sent to {{ user_email }}</p>
+            <p>&copy; {{ current_year }} PlatePal. All rights reserved.</p>
+            <p>Our mailing address: {{ mailing_address }}</p>
+
+            <!-- Footer links -->
+            <div style="margin-top: 15px;">
+                <a href="{{ social_media_url }}" style="
+                    color: #FF6B6B;
+                    text-decoration: none;
+                    margin-right: 10px;
+                ">Follow us</a> |
+                <a href="{{ privacy_policy_url }}" style="
+                    color: #FF6B6B;
+                    text-decoration: none;
+                    margin: 0 10px;
+                ">Privacy Policy</a> |
+                <a href="{{ terms_of_service_url }}" style="
+                    color: #FF6B6B;
+                    text-decoration: none;
+                    margin-left: 10px;
+                ">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
