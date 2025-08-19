@@ -6,18 +6,25 @@ from app.schemas.base_response_schema import BaseResponse
 
 
 class CreateUser(BaseModel):
-    first_name: str
-    last_name: str
-    email: EmailStr
-    password: str
-    user_type: UserType
+	first_name: str
+	last_name: str
+	email: EmailStr
+	password: str
+	user_type: UserType
+
 
 class Token(BaseModel):
-    access_token: str
-    token_type: str
+	access_token: str
+	token_type: str
+
 
 class SignupResponse(BaseResponse):
-    pass
+	pass
+
 
 class LogoutResponse(BaseResponse):
-    pass
+	pass
+
+
+class ForgotPassword(BaseModel):
+	email: EmailStr

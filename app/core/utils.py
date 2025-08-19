@@ -40,3 +40,16 @@ def verify_access_token(token: str):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
     except jwt.PyJWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+
+def generate_unique_number(length: int) -> str:
+    """
+    Generate a unique number string of specified length.
+
+    Args:
+        length: The desired length of the number string
+
+    Returns:
+        A string of random numbers with the specified length
+    """
+    import random
+    return ''.join(str(random.randint(0, 9)) for _ in range(length))

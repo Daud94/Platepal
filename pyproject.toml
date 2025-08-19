@@ -1,0 +1,28 @@
+[project]
+name = "platepal"
+version = "0.1.0"
+description = "Food ordering app"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.16.4",
+    "asyncpg>=0.30.0",
+    "fastapi-mail>=1.5.0",
+    "fastapi[standard]>=0.116.1",
+    "passlib[bcrypt]>=1.7.4",
+    "pydantic-settings>=2.10.1",
+    "pyjwt>=2.10.1",
+    "redis>=6.4.0",
+    "scalar-fastapi>=1.2.3",
+    "sqlalchemy>=2.0.43",
+    "sqlmodel>=0.0.24",
+]
+authors = [
+    {name = "Daud Olarewaju", email = "olarewajuyahyadaud@gmail.com"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Framework :: FastAPI",
+]

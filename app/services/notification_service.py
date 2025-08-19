@@ -17,14 +17,11 @@ class NotificationService:
 			)
 		)
 
-	async def send_email(self, user: User, subject: str, template_name: str) -> None:
+	async def send_email(self, user: User, subject: str, body: dict, template_name: str) -> None:
 		message = MessageSchema(
 			recipients=[user.email],
 			subject=subject,
 			subtype=MessageType.html,
-			template_body={
-				"user_name": user.first_name,
-				"user_email": user.email,
-			}
+			template_body=body
 		)
 		await self.fast_mail.send_message(message, template_name=template_name)

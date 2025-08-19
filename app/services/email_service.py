@@ -8,5 +8,16 @@ class EmailService:
 
 	async def send_welcome_email(self, user) -> None:
 		subject = "Welcome to Platepal"
+		body = {
+			"user_name": user.first_name,
+			"user_email": user.email,
+		}
+		await self.notification_service.send_email(user, subject, body,'welcome_mail.html')
 
-		await self.notification_service.send_email(user, subject, 'welcome_mail.html')
+	async def send_forgot_password_email(self, user: User) -> None:
+		subject = "Password Reset Request"
+		body = {
+			"name": user.first_name,
+			"otp_code": user.email_token,
+		}
+		await self.notification_service.send_email(user, subject, body,'forgot_password_mail.html')
